@@ -1,4 +1,11 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.2.4
+Date: 2026.10.24
+  Changes:
+    - Factorio 2.1 compatibility (unofficial fork): logistic container animation, opened_duration and animation_sound moved into robot_door.
+    - Chests now define default_empty_slots_signal so the new "Read empty slots" circuit option has a signal.
+    - Dependencies bumped to base/space-age 2.1.0.
+---------------------------------------------------------------------------------------------------
 Version: 0.2.3
 Date: 2024.11.29
   Changes:

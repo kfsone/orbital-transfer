@@ -44,36 +44,40 @@ data:extend({
     logistic_mode = "passive-provider",
     open_sound = { filename = "__base__/sound/metallic-chest-open.ogg", volume=0.43 },
     close_sound = { filename = "__base__/sound/metallic-chest-close.ogg", volume = 0.43 },
-    animation_sound = sounds.logistics_chest_open,
     impact_category = "metal",
-    opened_duration = logistic_chest_opened_duration,
-    animation =
+    robot_door =
     {
-      layers =
+      animation_sound = sounds.logistics_chest_open,
+      opened_duration = logistic_chest_opened_duration,
+      animation =
       {
+        layers =
         {
-          filename = "__base__/graphics/entity/logistic-chest/passive-provider-chest.png",
-          priority = "extra-high",
-          width = 66,
-          height = 74,
-          frame_count = 7,
-          shift = util.by_pixel(0, -2),
-          scale = 0.5
-        },
-        {
-          filename = "__base__/graphics/entity/logistic-chest/logistic-chest-shadow.png",
-          priority = "extra-high",
-          width = 112,
-          height = 46,
-          repeat_count = 7,
-          shift = util.by_pixel(12, 4.5),
-          draw_as_shadow = true,
-          scale = 0.5
+          {
+            filename = "__base__/graphics/entity/logistic-chest/passive-provider-chest.png",
+            priority = "extra-high",
+            width = 66,
+            height = 74,
+            frame_count = 7,
+            shift = util.by_pixel(0, -2),
+            scale = 0.5
+          },
+          {
+            filename = "__base__/graphics/entity/logistic-chest/logistic-chest-shadow.png",
+            priority = "extra-high",
+            width = 112,
+            height = 46,
+            repeat_count = 7,
+            shift = util.by_pixel(12, 4.5),
+            draw_as_shadow = true,
+            scale = 0.5
+          }
         }
       }
     },
     circuit_connector = circuit_connector_definitions["chest"],
-    circuit_wire_max_distance = default_circuit_wire_max_distance
+    circuit_wire_max_distance = default_circuit_wire_max_distance,
+    default_empty_slots_signal = { type = "virtual", name = "signal-E" }
   },
   {
     type = "logistic-container",
@@ -115,35 +119,39 @@ data:extend({
     logistic_mode = "storage",
     open_sound = { filename = "__base__/sound/metallic-chest-open.ogg", volume=0.43 },
     close_sound = { filename = "__base__/sound/metallic-chest-close.ogg", volume = 0.43 },
-    animation_sound = sounds.logistics_chest_open,
     impact_category = "metal",
-    opened_duration = logistic_chest_opened_duration,
-    animation =
+    robot_door =
     {
-      layers =
+      animation_sound = sounds.logistics_chest_open,
+      opened_duration = logistic_chest_opened_duration,
+      animation =
       {
+        layers =
         {
-          filename = "__base__/graphics/entity/logistic-chest/requester-chest.png",
-          priority = "extra-high",
-          width = 66,
-          height = 74,
-          frame_count = 7,
-          shift = util.by_pixel(0, -2),
-          scale = 0.5
-        },
-        {
-          filename = "__base__/graphics/entity/logistic-chest/logistic-chest-shadow.png",
-          priority = "extra-high",
-          width = 112,
-          height = 46,
-          repeat_count = 7,
-          shift = util.by_pixel(12, 4.5),
-          draw_as_shadow = true,
-          scale = 0.5
+          {
+            filename = "__base__/graphics/entity/logistic-chest/requester-chest.png",
+            priority = "extra-high",
+            width = 66,
+            height = 74,
+            frame_count = 7,
+            shift = util.by_pixel(0, -2),
+            scale = 0.5
+          },
+          {
+            filename = "__base__/graphics/entity/logistic-chest/logistic-chest-shadow.png",
+            priority = "extra-high",
+            width = 112,
+            height = 46,
+            repeat_count = 7,
+            shift = util.by_pixel(12, 4.5),
+            draw_as_shadow = true,
+            scale = 0.5
+          }
         }
       }
     },
     circuit_connector = circuit_connector_definitions["chest"],
-    circuit_wire_max_distance = default_circuit_wire_max_distance
+    circuit_wire_max_distance = default_circuit_wire_max_distance,
+    default_empty_slots_signal = { type = "virtual", name = "signal-E" }
   },
 })
