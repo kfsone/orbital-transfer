@@ -1,4 +1,10 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.2.5
+Date: 2026.10.24
+  Changes:
+    - Renamed to orbital-transfer-Unofficial-2-1Fix so it can be published next to the original (all prototype, setting and locale names are unchanged, so existing saves keep their chests, research and settings).
+    - When added to an existing save, chests on all space platforms are re-registered from the placed entities. In-flight deliveries at the moment of the switch are lost.
+---------------------------------------------------------------------------------------------------
 Version: 0.2.4
 Date: 2026.10.24
   Changes:

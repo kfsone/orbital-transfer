@@ -1,11 +1,11 @@
 {
-    "name": "orbital-transfer",
-    "version": "0.2.4",
-    "title": "Orbital Transfer",
-    "description": "Adds logistics to transfer items between platforms at the same space location",
+    "name": "orbital-transfer-Unofficial-2-1Fix",
+    "version": "0.2.5",
+    "title": "Orbital Transfer (Unofficial 2.1 Fix)",
+    "description": "Adds logistics to transfer items between platforms at the same space location. Original mod by Urthen; Factorio 2.1 fix by kfsone. Replaces the original Orbital Transfer: disable the original, saved chests are re-registered on first load.",
     "author": "Urthen",
-    "dependencies": ["base >= 2.1.0", "space-age >= 2.1.0"],
-    "homepage": "https://github.com/Urthen/orbital-transfer",
+    "dependencies": ["base >= 2.1.0", "space-age >= 2.1.0", "! orbital-transfer"],
+    "homepage": "https://github.com/kfsone/orbital-transfer",
     "space_travel_required": true,
     "factorio_version": "2.1"
   }

@@ -424,7 +424,7 @@ local function completeDelivery(delivery)
 
       -- not sure if getting script inventories is expensive so wrap this in another check
       if DEEP_DEBUG then
-        debug("Transit inventories remaining: " .. #game.get_script_inventories('orbital-transfer'), true)
+        debug("Transit inventories remaining: " .. #game.get_script_inventories(script.mod_name), true)
       end
     else
       debug("Transit inventory empty for some reason.")
@@ -616,7 +616,7 @@ end)
 -- ###############################################
 -- ### ON INIT
 -- ###############################################
-script.on_init(function()
+local function init_storage()
   storage.platforms_by_space_location = {}
   -- {"space_location_nam: {"platform-name", .. more platforms ..}, .. more locations
   storage.platforms_with_chests = {}
@@ -625,4 +625,56 @@ script.on_init(function()
   -- {unit_number: {entity, platform, platform_name, last_tick_active, requested={item_name, quality}, provided={item_name, quality}}}
   storage.deliveries = {}
   -- {{tick_launched, target, transit_inventory}}
+end
+
+-- ###############################################
+-- ### STATE REBUILD (mod added to an existing save, e.g. after the rename)
+-- ###############################################
+-- Re-registers every placed chest exactly as live building would have, using register_transfer_chest.
+-- Idempotent (already registered chests are skipped) and a no-op on a map with no chests.
+-- Not recoverable: in-flight deliveries (their script inventories belonged to the old mod), per-chest
+-- last_tick_active cooldowns, and cached pending requested/provided entries.
+local function rebuild_state_from_entities()
+  local chests, platforms = 0, 0
+  for _, surface in pairs(game.surfaces) do
+    local platform = surface.platform
+    if platform and platform.valid then
+      local found = surface.find_entities_filtered { name = { "orbital-transfer-requester", "orbital-transfer-provider" } }
+      if #found > 0 then
+        platforms = platforms + 1
+      end
+      for _, entity in pairs(found) do
+        if entity.unit_number and not storage.registered_chests[entity.unit_number] then
+          register_transfer_chest { entity = entity, platform = platform }
+          chests = chests + 1
+        end
+      end
+
+      -- live play takes a platform out of orbit while it waits for departure
+      local platform_data = storage.platforms_with_chests[platform.name]
+      if platform_data and platform_data.latest_location
+          and platform.state == defines.space_platform_state.waiting_for_departure then
+        space_platform_exit_orbit(platform, platform_data)
+      end
+    end
+  end
+
+  if chests > 0 then
+    log("[" .. script.mod_name .. "] rebuilt state: " .. chests .. " chests on " .. platforms .. " platforms")
+  end
+end
+
+script.on_init(function()
+  init_storage()
+  rebuild_state_from_entities()
+end)
+
+script.on_configuration_changed(function()
+  -- storage is keyed by mod name: if it is missing here the mod was swapped in for another copy
+  if not storage.registered_chests or not storage.platforms_with_chests
+      or not storage.platforms_by_space_location then
+    init_storage()
+    rebuild_state_from_entities()
+  end
+  storage.deliveries = storage.deliveries or {}
 end)
